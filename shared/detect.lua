@@ -115,6 +115,17 @@ function PLLib.CheckDependency(name, minVersion)
     return true
 end
 
+function PLLib.GetMinigame()
+    if PLLib.Minigame ~= 'autodetect' then
+        return PLLib.Minigame
+    end
+    if GetResourceState('ox_lib')          == 'started' then return 'ox_lib'          end
+    if GetResourceState('utk_fingerprint') == 'started' then return 'utk_fingerprint' end
+    if GetResourceState('ps-ui')           == 'started' then return 'ps-ui-circle'    end
+    print('^1[pl_lib] No compatible Minigame resource detected.^0')
+    return nil
+end
+
 exports('GetFramework', PLLib.GetFramework)
 exports('GetTarget',    PLLib.GetTarget)
 exports('GetTextUI',    PLLib.GetTextUI)
@@ -122,3 +133,4 @@ exports('GetNotify',    PLLib.GetNotify)
 exports('GetClothing',  PLLib.GetClothing)
 exports('GetSociety',   PLLib.GetSociety)
 exports('GetDispatch',  PLLib.GetDispatch)
+exports('GetMinigame',  PLLib.GetMinigame)

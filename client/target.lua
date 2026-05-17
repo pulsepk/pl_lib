@@ -1,7 +1,8 @@
 local _system = PLLib.GetTarget()
 
 -- Builds an ox_target option table from the normalised opt.
--- onSelect fires TriggerEvent so callbacks stay in the calling resource.
+-- opt.event fires a client event with { entity, args }; serverEvent wires to server directly.
+-- Fallback fires pl_lib:targetSelected.
 local function oxOption(opt)
     local o = {
         name     = opt.name,
@@ -14,6 +15,11 @@ local function oxOption(opt)
     end
     if opt.serverEvent then
         o.serverEvent = opt.serverEvent
+    elseif opt.event then
+        local ev, args = opt.event, opt.args
+        o.onSelect = function(data)
+            TriggerEvent(ev, { entity = data.entity, args = args })
+        end
     else
         o.onSelect = function(data)
             TriggerEvent('pl_lib:targetSelected', opt.name, data)
@@ -34,8 +40,57 @@ local function qbOption(opt)
     if opt.serverEvent then
         o.type  = 'server'
         o.event = opt.serverEvent
+    elseif opt.event then
+        local ev, args = opt.event, opt.args
+        o.action = function(data)
+            local ent = type(data) == 'number' and data or data.entity
+            TriggerEvent(ev, { entity = ent, args = args })
+        end
     else
         o.action = function(data)
+            TriggerEvent('pl_lib:targetSelected', opt.name, data)
+        end
+    end
+    return o
+end
+
+-- Builds an ox_target model option (no serverEvent/job support — model targets are client-side).
+local function oxModelOption(opt)
+    local o = {
+        name        = opt.name,
+        icon        = opt.icon,
+        label       = opt.label,
+        distance    = opt.distance or 2.0,
+        canInteract = opt.canInteract,
+    }
+    local item = opt.item
+    if item then o.items = type(item) == 'table' and item or { item } end
+    local ev, args = opt.event, opt.args
+    o.onSelect = function(data)
+        if ev then
+            TriggerEvent(ev, { entity = data.entity, args = args })
+        else
+            TriggerEvent('pl_lib:targetSelected', opt.name, data)
+        end
+    end
+    return o
+end
+
+-- Builds a qb-target model option.
+local function qbModelOption(opt)
+    local o = {
+        label       = opt.label,
+        icon        = opt.icon,
+        canInteract = opt.canInteract,
+    }
+    local item = opt.item
+    if item then o.item = type(item) == 'table' and item[1] or item end
+    local ev, args = opt.event, opt.args
+    o.action = function(data)
+        local ent = type(data) == 'number' and data or data.entity
+        if ev then
+            TriggerEvent(ev, { entity = ent, args = args })
+        else
             TriggerEvent('pl_lib:targetSelected', opt.name, data)
         end
     end
@@ -143,5 +198,32 @@ exports('AddChairTarget', function(zoneName, chair, debug)
             distance = 2.2,
         })
         return zoneName
+    end
+end)
+
+-- ── Model targets ─────────────────────────────────────────────────────────────
+
+-- opts: array of { name, label, icon, distance, item, event, args, canInteract }
+exports('AddModelTarget', function(model, opts)
+    if _system == 'ox_target' then
+        local options = {}
+        for _, opt in ipairs(opts) do table.insert(options, oxModelOption(opt)) end
+        exports.ox_target:addModel(model, options)
+    elseif _system == 'qb-target' then
+        local options  = {}
+        local distance = 2.0
+        for _, opt in ipairs(opts) do
+            table.insert(options, qbModelOption(opt))
+            if opt.distance then distance = opt.distance end
+        end
+        exports['qb-target']:AddTargetModel(model, { options = options, distance = distance })
+    end
+end)
+
+exports('RemoveModelTarget', function(model)
+    if _system == 'ox_target' then
+        exports.ox_target:removeModel(model)
+    elseif _system == 'qb-target' then
+        exports['qb-target']:RemoveTargetModel(model)
     end
 end)

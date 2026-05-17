@@ -32,6 +32,7 @@ client_scripts {
     'client/animation.lua',
     'client/dispatch.lua',
     'client/entity.lua',
+    'client/minigame.lua',
 }
 
 server_scripts {

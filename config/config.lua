@@ -32,6 +32,9 @@ PLLib.Progressbar = 'ox_lib'
 -- SkillCheck: 'ox_lib' | 'lation_ui'
 PLLib.SkillCheck = 'ox_lib'
 
+-- Minigame: 'autodetect' | 'ox_lib' | 'utk_fingerprint' | 'ps-ui-circle' | 'ps-ui-maze' | 'ps-ui-scrambler'
+PLLib.Minigame = 'autodetect'
+
 -- InputDialog: 'ox_lib' | 'lation_ui'
 PLLib.InputDialog = 'ox_lib'
 
