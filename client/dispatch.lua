@@ -104,5 +104,54 @@ exports('SendDispatch', function(opts)
             coords, false,
             GetPlayerServerId(PlayerId())
         )
+
+    elseif dispatch == 'codem' then
+        exports['codem-dispatch']:CustomDispatch({
+            type   = title,
+            header = title,
+            text   = msg .. ' at ' .. street,
+            code   = code,
+        })
+
+    elseif dispatch == 'qs' then
+        TriggerServerEvent('qs-dispatch:server:CreateDispatchCall', {
+            job          = jobs,
+            callLocation = coords,
+            callCode     = { code = code, snippet = title },
+            message      = msg .. ' at ' .. street,
+            flashes      = false,
+            image        = opts.image or nil,
+            blip         = {
+                sprite  = sprite,
+                scale   = scale,
+                colour  = color,
+                flashes = false,
+                text    = title,
+                time    = length * 60 * 1000,
+            },
+        })
+
+    elseif dispatch == 'tk' then
+        exports.tk_dispatch:addCall({
+            title         = title,
+            code          = opts.code,
+            priority      = opts.priority,
+            coords        = coords,
+            message       = opts.message,
+            showLocation  = true,
+            showDirection = true,
+            showGender    = true,
+            showVehicle   = true,
+            showWeapon    = true,
+            playSound     = true,
+            removeTime    = length * 60 * 1000,
+            jobs          = jobs,
+            blip          = {
+                sprite     = sprite,
+                scale      = scale,
+                color      = color,
+                radius     = radius > 0 and radius or nil,
+            },
+        })
     end
 end)

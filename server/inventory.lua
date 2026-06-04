@@ -58,6 +58,9 @@ exports('AddItem', function(src, item, amount)
 
     elseif GetResourceState('jaksam_inventory') == 'started' then
         return exports['jaksam_inventory']:addItem(src, item, amount) ~= false
+
+    elseif GetResourceState('core_inventory') == 'started' then
+        return exports['core_inventory']:addItem(src, item, amount) ~= false
     end
 
     print('[pl_lib] AddItem: no inventory resource found')
@@ -94,6 +97,9 @@ exports('RemoveItem', function(src, item, amount)
 
     elseif GetResourceState('jaksam_inventory') == 'started' then
         return exports['jaksam_inventory']:removeItem(src, item, amount) ~= false
+
+    elseif GetResourceState('core_inventory') == 'started' then
+        return exports['core_inventory']:removeItem(src, item, amount) ~= false
     end
 
     print('[pl_lib] RemoveItem: no inventory resource found')
@@ -131,6 +137,9 @@ exports('HasItem', function(src, item)
     elseif GetResourceState('jaksam_inventory') == 'started' then
         local slot = exports['jaksam_inventory']:getItemByName(src, item)
         return slot and slot.amount or 0
+
+    elseif GetResourceState('core_inventory') == 'started' then
+        return exports['core_inventory']:hasItem(src, item, 1) and 1 or 0
     end
 
     print('[pl_lib] HasItem: no inventory resource found')

@@ -49,3 +49,26 @@ PLLib.Society = { resourcename = 'autodetect' }
 
 -- Dispatch: 'autodetect' | 'ps' | 'aty' | 'rcore' | 'cd' | 'op'
 PLLib.Dispatch = 'autodetect'
+
+-- ──────────────────────────────────────────────────────────────────────────────
+-- Inventory image paths
+-- Used by exports.pl_lib:GetImagesPath() to return the correct item image folder.
+--
+-- HOW TO USE:
+--   local path = exports.pl_lib:GetImagesPath()
+--   -- path will be something like: "nui://ox_inventory/web/images/"
+--   -- append your item name:       path .. "bread.png"
+--
+-- If images are not loading correctly, find your inventory below and fix the path.
+-- ──────────────────────────────────────────────────────────────────────────────
+PLLib.InventoryImages = {
+    ['ox_inventory']     = 'nui://ox_inventory/web/images/',
+    ['qb-inventory']     = 'nui://qb-inventory/html/images/',
+    ['qs-inventory']     = 'nui://qs-inventory/html/images/',
+    ['ps-inventory']     = 'nui://ps-inventory/html/images/',
+    ['codem-inventory']  = 'nui://codem-inventory/html/images/',
+    ['tgiann-inventory'] = 'nui://tgiann-inventory/html/images/',
+    ['origen_inventory'] = 'nui://origen_inventory/html/images/',
+    ['jaksam_inventory'] = 'nui://jaksam_inventory/html/images/',
+    ['core_inventory']   = 'nui://core_inventory/html/images/',
+}

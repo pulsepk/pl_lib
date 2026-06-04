@@ -17,6 +17,8 @@ exports('AddSocietyMoney', function(account, money)
         exports['snipe-banking']:AddMoneyToAccount(account, money)
     elseif _system == 'tgiann-bank' then
         exports['tgiann-bank']:AddJobMoney(account, money)
+    elseif _system == 'kartik-banking' then
+        exports['kartik-banking']:AddAccountMoney(account, money)
     end
 end)
 
@@ -39,6 +41,8 @@ exports('RemoveSocietyMoney', function(account, money)
         exports['snipe-banking']:RemoveMoneyFromAccount(account, money)
     elseif _system == 'tgiann-bank' then
         exports['tgiann-bank']:RemoveJobMoney(account, money)
+    elseif _system == 'kartik-banking' then
+        exports['kartik-banking']:RemoveAccountMoney(account, money)
     end
 end)
 
@@ -65,6 +69,8 @@ exports('GetSocietyMoney', function(account)
         return exports['snipe-banking']:GetAccountBalance(account)
     elseif _system == 'tgiann-bank' then
         return exports['tgiann-bank']:GetJobAccountBalance(account)
+    elseif _system == 'kartik-banking' then
+        return exports['kartik-banking']:GetAccountMoney(account)
     end
     return 0
 end)

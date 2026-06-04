@@ -6,7 +6,6 @@ A shared bridge library for FiveM that provides a single unified API across mult
 
 ## Requirements
 
-- [`ox_lib`](https://github.com/overextended/ox_lib)
 - One supported framework: **QBox**, **QBCore**, or **ESX**
 
 ---
@@ -30,12 +29,12 @@ All systems are auto-detected at startup or can be forced in `config/config.lua`
 | **Skill Check** | ox_lib, lation_ui |
 | **Progress Bar** | ox_lib, ox_lib (circular), qb, lation_ui |
 | **Target** | ox_target, qb-target |
-| **Inventory** | ox_inventory, qb-inventory, qs-inventory, ps-inventory, codem-inventory, tgiann-inventory, origen_inventory, jaksam_inventory |
+| **Inventory** | ox_inventory, qb-inventory, qs-inventory, ps-inventory, codem-inventory, tgiann-inventory, origen_inventory, jaksam_inventory, core_inventory |
 | **Vehicle Fuel** | LegacyFuel, cdn-fuel, okokGasStation, rcore_fuel, ox_fuel |
 | **Vehicle Keys** | qb-vehiclekeys, wasabi_carlock, qs-vehiclekeys, vehicles_keys |
 | **Clothing / Appearance** | esx_skin, illenium-appearance, fivem-appearance, qb-clothing, tgiann-clothing, rcore_clothing |
-| **Society / Job Banking** | esx_addonaccount, Renewed-Banking, qb-management, qb-banking, okokBanking, snipe-banking, tgiann-bank |
-| **Dispatch** | ps-dispatch, aty_dispatch, rcore_dispatch, cd_dispatch, Opto_dispatch |
+| **Society / Job Banking** | esx_addonaccount, Renewed-Banking, qb-management, qb-banking, okokBanking, snipe-banking, tgiann-bank, kartik-banking |
+| **Dispatch** | ps-dispatch, aty_dispatch, rcore_dispatch, cd_dispatch, Opto_dispatch, tk_dispatch, qs-dispatch, codem-dispatch |
 | **Logging** | fivemanage, fivemerr, discord webhook |
 | **Animations** | Native (no dependency) |
 | **Player Status** | Native (hunger & thirst) |

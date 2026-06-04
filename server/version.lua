@@ -30,7 +30,7 @@ function PLLib.CheckVersion(resourceName, enable)
         local entry = data and data[resourceName]
 
         if not entry or not entry.version then
-            print('^1[pl_lib] Version check failed for ' .. resourceName .. ': no entry in manifest.^0')
+            --print('^1[pl_lib] Version check failed for ' .. resourceName .. ': no entry in manifest.^0')
             return
         end
 

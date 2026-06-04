@@ -79,6 +79,7 @@ function PLLib.GetSociety()
     if GetResourceState('okokBanking')      == 'started' then return 'okokBanking'      end
     if GetResourceState('snipe-banking')    == 'started' then return 'snipe-banking'    end
     if GetResourceState('tgiann-bank')      == 'started' then return 'tgiann-bank'      end
+    if GetResourceState('kartik-banking')   == 'started' then return 'kartik-banking'   end
     if GetResourceState('qb-banking')       == 'started' then return 'qb-banking'       end
     if GetResourceState('qb-management')    == 'started' then return 'qb-management'    end
     print('^1[pl_lib] No compatible Society resource detected.^0')
@@ -94,6 +95,9 @@ function PLLib.GetDispatch()
     if GetResourceState('rcore_dispatch')== 'started' then return 'rcore' end
     if GetResourceState('cd_dispatch')   == 'started' then return 'cd'    end
     if GetResourceState('Opto_dispatch') == 'started' then return 'op'    end
+    if GetResourceState('tk_dispatch')   == 'started' then return 'tk'    end
+    if GetResourceState('qs-dispatch')   == 'started' then return 'qs'    end
+    if GetResourceState('codem-dispatch')== 'started' then return 'codem' end
     return nil
 end
 
@@ -115,6 +119,23 @@ function PLLib.CheckDependency(name, minVersion)
     return true
 end
 
+function PLLib.GetImagesPath()
+    -- Priority order — first started inventory wins.
+    local order = {
+        'ox_inventory', 'qb-inventory', 'qs-inventory', 'ps-inventory',
+        'codem-inventory', 'tgiann-inventory', 'origen_inventory',
+        'jaksam_inventory', 'core_inventory',
+    }
+    for _, resource in ipairs(order) do
+        if GetResourceState(resource) == 'started' then
+            local path = PLLib.InventoryImages[resource]
+            if path then return path end
+        end
+    end
+    print('^1[pl_lib] GetImagesPath: no compatible inventory resource detected.^0')
+    return ''
+end
+
 function PLLib.GetMinigame()
     if PLLib.Minigame ~= 'autodetect' then
         return PLLib.Minigame
@@ -126,11 +147,12 @@ function PLLib.GetMinigame()
     return nil
 end
 
-exports('GetFramework', PLLib.GetFramework)
-exports('GetTarget',    PLLib.GetTarget)
-exports('GetTextUI',    PLLib.GetTextUI)
-exports('GetNotify',    PLLib.GetNotify)
-exports('GetClothing',  PLLib.GetClothing)
-exports('GetSociety',   PLLib.GetSociety)
-exports('GetDispatch',  PLLib.GetDispatch)
-exports('GetMinigame',  PLLib.GetMinigame)
+exports('GetFramework',  PLLib.GetFramework)
+exports('GetTarget',     PLLib.GetTarget)
+exports('GetTextUI',     PLLib.GetTextUI)
+exports('GetNotify',     PLLib.GetNotify)
+exports('GetClothing',   PLLib.GetClothing)
+exports('GetSociety',    PLLib.GetSociety)
+exports('GetDispatch',   PLLib.GetDispatch)
+exports('GetMinigame',   PLLib.GetMinigame)
+exports('GetImagesPath', PLLib.GetImagesPath)
