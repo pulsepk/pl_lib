@@ -50,6 +50,15 @@ PLLib.Society = { resourcename = 'autodetect' }
 -- Dispatch: 'autodetect' | 'ps' | 'aty' | 'rcore' | 'cd' | 'op'
 PLLib.Dispatch = 'autodetect'
 
+-- Fuel: 'autodetect' | 'LegacyFuel' | 'cdn-fuel' | 'okokGasStation' | 'rcore_fuel' | 'ox_fuel'
+PLLib.Fuel = 'autodetect'
+
+-- Keys: 'autodetect' | 'qb-vehiclekeys' | 'wasabi_carlock' | 'qs-vehiclekeys' | 'vehicles_keys'
+PLLib.Keys = 'autodetect'
+
+-- Inventory: 'autodetect' | 'ox_inventory' | 'qb-inventory' | 'qs-inventory' | 'ps-inventory' | 'codem-inventory' | 'tgiann-inventory' | 'origen_inventory' | 'jaksam_inventory' | 'core_inventory' | 'esx_inventory'
+PLLib.Inventory = 'autodetect'
+
 -- ──────────────────────────────────────────────────────────────────────────────
 -- Inventory image paths
 -- Used by exports.pl_lib:GetImagesPath() to return the correct item image folder.

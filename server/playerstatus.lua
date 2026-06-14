@@ -1,7 +1,8 @@
 local function getQBPlayer(src)
-    if GetResourceState('qbx_core') == 'started' then
+    local fw = PLLib.GetFramework()
+    if fw == 'qbox' then
         return exports.qbx_core:GetPlayer(src)
-    elseif GetResourceState('qb-core') == 'started' then
+    elseif fw == 'qb' then
         return exports['qb-core']:GetCoreObject().Functions.GetPlayer(src)
     end
 end

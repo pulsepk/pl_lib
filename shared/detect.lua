@@ -1,104 +1,155 @@
 -- Detection helpers — all read from PLLib.* (config/config.lua) so you only
 -- ever configure things in one place, even across multiple scripts.
+--
+-- Results are cached after the first call so GetResourceState is never called
+-- more than once per system per resource start.
+
+PLLib._cache = {}
+
+local function cache(key, detectFn)
+    if PLLib._cache[key] ~= nil then
+        return PLLib._cache[key] ~= false and PLLib._cache[key] or nil
+    end
+    local result = detectFn()
+    PLLib._cache[key] = result ~= nil and result or false
+    return result
+end
 
 function PLLib.GetFramework()
-    if PLLib.Framework ~= 'autodetect' then
-        return PLLib.Framework
-    end
-    if GetResourceState('qbx_core') == 'started' then
-        return 'qbox'
-    elseif GetResourceState('qb-core') == 'started' then
-        return 'qb'
-    elseif GetResourceState('es_extended') == 'started' then
-        return 'esx'
-    end
-    print('^1[pl_lib] No compatible framework detected.^0')
-    return nil
+    return cache('Framework', function()
+        if PLLib.Framework ~= 'autodetect' then return PLLib.Framework end
+        if GetResourceState('qbx_core')    == 'started' then return 'qbox' end
+        if GetResourceState('qb-core')     == 'started' then return 'qb'   end
+        if GetResourceState('es_extended') == 'started' then return 'esx'  end
+        print('^1[pl_lib] No compatible framework detected.^0')
+    end)
 end
 
 function PLLib.GetTextUI()
-    if PLLib.TextUI ~= 'autodetect' then
-        return PLLib.TextUI
-    end
-    if GetResourceState('ox_lib')        == 'started' then return 'ox_lib'        end
-    if GetResourceState('qb-core')       == 'started' then return 'qb-core'       end
-    if GetResourceState('jg-textui')     == 'started' then return 'jg-textui'     end
-    if GetResourceState('esx_textui')    == 'started' then return 'esx_textui'    end
-    if GetResourceState('cd_drawtextui') == 'started' then return 'cd_drawtextui' end
-    if GetResourceState('brutal_textui') == 'started' then return 'brutal_textui' end
-    if GetResourceState('lation_ui')     == 'started' then return 'lation_ui'     end
-    print('^1[pl_lib] No compatible TextUI resource detected.^0')
-    return nil
+    return cache('TextUI', function()
+        if PLLib.TextUI ~= 'autodetect' then return PLLib.TextUI end
+        if GetResourceState('ox_lib')        == 'started' then return 'ox_lib'        end
+        if GetResourceState('qb-core')       == 'started' then return 'qb-core'       end
+        if GetResourceState('jg-textui')     == 'started' then return 'jg-textui'     end
+        if GetResourceState('esx_textui')    == 'started' then return 'esx_textui'    end
+        if GetResourceState('cd_drawtextui') == 'started' then return 'cd_drawtextui' end
+        if GetResourceState('brutal_textui') == 'started' then return 'brutal_textui' end
+        if GetResourceState('lation_ui')     == 'started' then return 'lation_ui'     end
+        print('^1[pl_lib] No compatible TextUI resource detected.^0')
+    end)
 end
 
 function PLLib.GetTarget()
-    if PLLib.Target ~= 'autodetect' then
-        return PLLib.Target
-    end
-    if GetResourceState('ox_target') == 'started' then return 'ox_target' end
-    if GetResourceState('qb-target') == 'started' then return 'qb-target' end
-    print('^1[pl_lib] No compatible Target resource detected.^0')
-    return nil
+    return cache('Target', function()
+        if PLLib.Target ~= 'autodetect' then return PLLib.Target end
+        if GetResourceState('ox_target') == 'started' then return 'ox_target' end
+        if GetResourceState('qb-target') == 'started' then return 'qb-target' end
+        print('^1[pl_lib] No compatible Target resource detected.^0')
+    end)
 end
 
 function PLLib.GetNotify()
-    if PLLib.Notify ~= 'autodetect' then
-        return PLLib.Notify
-    end
-    if GetResourceState('ox_lib')        == 'started' then return 'ox_lib'        end
-    if GetResourceState('lation_ui')     == 'started' then return 'lation_ui'     end
-    if GetResourceState('esx_notify')    == 'started' then return 'esx_notify'    end
-    if GetResourceState('okokNotify')    == 'started' then return 'okokNotify'    end
-    if GetResourceState('wasabi_notify') == 'started' then return 'wasabi_notify' end
-    if GetResourceState('brutal_notify') == 'started' then return 'brutal_notify' end
-    if GetResourceState('mythic_notify') == 'started' then return 'mythic_notify' end
-    print('^1[pl_lib] No compatible Notify resource detected.^0')
-    return nil
+    return cache('Notify', function()
+        if PLLib.Notify ~= 'autodetect' then return PLLib.Notify end
+        if GetResourceState('ox_lib')        == 'started' then return 'ox_lib'        end
+        if GetResourceState('lation_ui')     == 'started' then return 'lation_ui'     end
+        if GetResourceState('esx_notify')    == 'started' then return 'esx_notify'    end
+        if GetResourceState('okokNotify')    == 'started' then return 'okokNotify'    end
+        if GetResourceState('wasabi_notify') == 'started' then return 'wasabi_notify' end
+        if GetResourceState('brutal_notify') == 'started' then return 'brutal_notify' end
+        if GetResourceState('mythic_notify') == 'started' then return 'mythic_notify' end
+        print('^1[pl_lib] No compatible Notify resource detected.^0')
+    end)
 end
 
 function PLLib.GetClothing()
-    if PLLib.Clothing ~= 'autodetect' then
-        return PLLib.Clothing
-    end
-    if GetResourceState('esx_skin')            == 'started' then return 'esx_skin'            end
-    if GetResourceState('illenium-appearance') == 'started' then return 'illenium-appearance' end
-    if GetResourceState('fivem-appearance')    == 'started' then return 'fivem-appearance'    end
-    if GetResourceState('qb-clothing')         == 'started' then return 'qb-clothing'         end
-    if GetResourceState('tgiann-clothing')     == 'started' then return 'tgiann-clothing'     end
-    if GetResourceState('rcore_clothing')      == 'started' then return 'rcore_clothing'      end
-    print('^1[pl_lib] No compatible Clothing resource detected.^0')
-    return nil
+    return cache('Clothing', function()
+        if PLLib.Clothing ~= 'autodetect' then return PLLib.Clothing end
+        if GetResourceState('esx_skin')            == 'started' then return 'esx_skin'            end
+        if GetResourceState('illenium-appearance') == 'started' then return 'illenium-appearance' end
+        if GetResourceState('fivem-appearance')    == 'started' then return 'fivem-appearance'    end
+        if GetResourceState('qb-clothing')         == 'started' then return 'qb-clothing'         end
+        if GetResourceState('tgiann-clothing')     == 'started' then return 'tgiann-clothing'     end
+        if GetResourceState('rcore_clothing')      == 'started' then return 'rcore_clothing'      end
+        print('^1[pl_lib] No compatible Clothing resource detected.^0')
+    end)
 end
 
 function PLLib.GetSociety()
-    if PLLib.Society.resourcename ~= 'autodetect' then
-        return PLLib.Society.resourcename
-    end
-    if GetResourceState('Renewed-Banking')   == 'started' then return 'Renewed-Banking'   end
-    if GetResourceState('esx_addonaccount') == 'started' then return 'esx_addonaccount' end
-    if GetResourceState('okokBanking')      == 'started' then return 'okokBanking'      end
-    if GetResourceState('snipe-banking')    == 'started' then return 'snipe-banking'    end
-    if GetResourceState('tgiann-bank')      == 'started' then return 'tgiann-bank'      end
-    if GetResourceState('kartik-banking')   == 'started' then return 'kartik-banking'   end
-    if GetResourceState('qb-banking')       == 'started' then return 'qb-banking'       end
-    if GetResourceState('qb-management')    == 'started' then return 'qb-management'    end
-    print('^1[pl_lib] No compatible Society resource detected.^0')
-    return nil
+    return cache('Society', function()
+        if PLLib.Society.resourcename ~= 'autodetect' then return PLLib.Society.resourcename end
+        if GetResourceState('Renewed-Banking')  == 'started' then return 'Renewed-Banking'  end
+        if GetResourceState('esx_addonaccount') == 'started' then return 'esx_addonaccount' end
+        if GetResourceState('okokBanking')      == 'started' then return 'okokBanking'      end
+        if GetResourceState('snipe-banking')    == 'started' then return 'snipe-banking'    end
+        if GetResourceState('tgiann-bank')      == 'started' then return 'tgiann-bank'      end
+        if GetResourceState('kartik-banking')   == 'started' then return 'kartik-banking'   end
+        if GetResourceState('qb-banking')       == 'started' then return 'qb-banking'       end
+        if GetResourceState('qb-management')    == 'started' then return 'qb-management'    end
+        print('^1[pl_lib] No compatible Society resource detected.^0')
+    end)
 end
 
 function PLLib.GetDispatch()
-    if PLLib.Dispatch ~= 'autodetect' then
-        return PLLib.Dispatch
-    end
-    if GetResourceState('ps-dispatch')   == 'started' then return 'ps'    end
-    if GetResourceState('aty_dispatch')  == 'started' then return 'aty'   end
-    if GetResourceState('rcore_dispatch')== 'started' then return 'rcore' end
-    if GetResourceState('cd_dispatch')   == 'started' then return 'cd'    end
-    if GetResourceState('Opto_dispatch') == 'started' then return 'op'    end
-    if GetResourceState('tk_dispatch')   == 'started' then return 'tk'    end
-    if GetResourceState('qs-dispatch')   == 'started' then return 'qs'    end
-    if GetResourceState('codem-dispatch')== 'started' then return 'codem' end
-    return nil
+    return cache('Dispatch', function()
+        if PLLib.Dispatch ~= 'autodetect' then return PLLib.Dispatch end
+        if GetResourceState('ps-dispatch')    == 'started' then return 'ps'    end
+        if GetResourceState('aty_dispatch')   == 'started' then return 'aty'   end
+        if GetResourceState('rcore_dispatch') == 'started' then return 'rcore' end
+        if GetResourceState('cd_dispatch')    == 'started' then return 'cd'    end
+        if GetResourceState('Opto_dispatch')  == 'started' then return 'op'    end
+        if GetResourceState('tk_dispatch')    == 'started' then return 'tk'    end
+        if GetResourceState('qs-dispatch')    == 'started' then return 'qs'    end
+        if GetResourceState('codem-dispatch') == 'started' then return 'codem' end
+    end)
+end
+
+function PLLib.GetMinigame()
+    return cache('Minigame', function()
+        if PLLib.Minigame ~= 'autodetect' then return PLLib.Minigame end
+        if GetResourceState('ox_lib')          == 'started' then return 'ox_lib'          end
+        if GetResourceState('utk_fingerprint') == 'started' then return 'utk_fingerprint' end
+        if GetResourceState('ps-ui')           == 'started' then return 'ps-ui-circle'    end
+        print('^1[pl_lib] No compatible Minigame resource detected.^0')
+    end)
+end
+
+function PLLib.GetFuel()
+    return cache('Fuel', function()
+        if PLLib.Fuel ~= 'autodetect' then return PLLib.Fuel end
+        if GetResourceState('LegacyFuel')     == 'started' then return 'LegacyFuel'     end
+        if GetResourceState('cdn-fuel')       == 'started' then return 'cdn-fuel'       end
+        if GetResourceState('okokGasStation') == 'started' then return 'okokGasStation' end
+        if GetResourceState('rcore_fuel')     == 'started' then return 'rcore_fuel'     end
+        if GetResourceState('ox_fuel')        == 'started' then return 'ox_fuel'        end
+    end)
+end
+
+function PLLib.GetKeys()
+    return cache('Keys', function()
+        if PLLib.Keys ~= 'autodetect' then return PLLib.Keys end
+        if GetResourceState('qb-vehiclekeys') == 'started' then return 'qb-vehiclekeys' end
+        if GetResourceState('wasabi_carlock') == 'started' then return 'wasabi_carlock' end
+        if GetResourceState('qs-vehiclekeys') == 'started' then return 'qs-vehiclekeys' end
+        if GetResourceState('vehicles_keys')  == 'started' then return 'vehicles_keys'  end
+    end)
+end
+
+function PLLib.GetInventory()
+    return cache('Inventory', function()
+        if PLLib.Inventory ~= 'autodetect' then return PLLib.Inventory end
+        if GetResourceState('ox_inventory')     == 'started' then return 'ox_inventory'     end
+        if GetResourceState('qb-inventory')     == 'started' then return 'qb-inventory'     end
+        if GetResourceState('qs-inventory')     == 'started' then return 'qs-inventory'     end
+        if GetResourceState('ps-inventory')     == 'started' then return 'ps-inventory'     end
+        if GetResourceState('codem-inventory')  == 'started' then return 'codem-inventory'  end
+        if GetResourceState('tgiann-inventory') == 'started' then return 'tgiann-inventory' end
+        if GetResourceState('origen_inventory') == 'started' then return 'origen_inventory' end
+        if GetResourceState('jaksam_inventory') == 'started' then return 'jaksam_inventory' end
+        if GetResourceState('core_inventory')   == 'started' then return 'core_inventory'   end
+        if GetResourceState('esx_inventory')    == 'started' then return 'esx_inventory'    end
+        print('^1[pl_lib] No compatible Inventory resource detected.^0')
+    end)
 end
 
 function PLLib.CheckDependency(name, minVersion)
@@ -120,31 +171,20 @@ function PLLib.CheckDependency(name, minVersion)
 end
 
 function PLLib.GetImagesPath()
-    -- Priority order — first started inventory wins.
-    local order = {
-        'ox_inventory', 'qb-inventory', 'qs-inventory', 'ps-inventory',
-        'codem-inventory', 'tgiann-inventory', 'origen_inventory',
-        'jaksam_inventory', 'core_inventory',
-    }
-    for _, resource in ipairs(order) do
-        if GetResourceState(resource) == 'started' then
-            local path = PLLib.InventoryImages[resource]
-            if path then return path end
+    return cache('ImagesPath', function()
+        local order = {
+            'ox_inventory', 'qb-inventory', 'qs-inventory', 'ps-inventory',
+            'codem-inventory', 'tgiann-inventory', 'origen_inventory',
+            'jaksam_inventory', 'core_inventory',
+        }
+        for _, resource in ipairs(order) do
+            if GetResourceState(resource) == 'started' then
+                local path = PLLib.InventoryImages[resource]
+                if path then return path end
+            end
         end
-    end
-    print('^1[pl_lib] GetImagesPath: no compatible inventory resource detected.^0')
-    return ''
-end
-
-function PLLib.GetMinigame()
-    if PLLib.Minigame ~= 'autodetect' then
-        return PLLib.Minigame
-    end
-    if GetResourceState('ox_lib')          == 'started' then return 'ox_lib'          end
-    if GetResourceState('utk_fingerprint') == 'started' then return 'utk_fingerprint' end
-    if GetResourceState('ps-ui')           == 'started' then return 'ps-ui-circle'    end
-    print('^1[pl_lib] No compatible Minigame resource detected.^0')
-    return nil
+        print('^1[pl_lib] GetImagesPath: no compatible inventory resource detected.^0')
+    end)
 end
 
 function PLLib.Wrap(name, fn)
@@ -167,3 +207,6 @@ exports('GetSociety',    PLLib.Wrap('GetSociety',    PLLib.GetSociety))
 exports('GetDispatch',   PLLib.Wrap('GetDispatch',   PLLib.GetDispatch))
 exports('GetMinigame',   PLLib.Wrap('GetMinigame',   PLLib.GetMinigame))
 exports('GetImagesPath', PLLib.Wrap('GetImagesPath', PLLib.GetImagesPath))
+exports('GetFuel',       PLLib.Wrap('GetFuel',       PLLib.GetFuel))
+exports('GetKeys',       PLLib.Wrap('GetKeys',       PLLib.GetKeys))
+exports('GetInventory',  PLLib.Wrap('GetInventory',  PLLib.GetInventory))

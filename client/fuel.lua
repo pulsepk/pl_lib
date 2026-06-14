@@ -1,15 +1,17 @@
+local _system = PLLib.GetFuel()
+
 -- SetVehicleFuel(vehicle, level)
 -- level: 0-100 (float)
 exports('SetVehicleFuel', PLLib.Wrap('SetVehicleFuel', function(vehicle, level)
-    if GetResourceState('LegacyFuel')     == 'started' then
+    if _system == 'LegacyFuel' then
         exports['LegacyFuel']:SetFuel(vehicle, level)
-    elseif GetResourceState('cdn-fuel')   == 'started' then
+    elseif _system == 'cdn-fuel' then
         exports['cdn-fuel']:SetFuel(vehicle, level)
-    elseif GetResourceState('okokGasStation') == 'started' then
+    elseif _system == 'okokGasStation' then
         exports['okokGasStation']:SetFuel(vehicle, level)
-    elseif GetResourceState('rcore_fuel') == 'started' then
+    elseif _system == 'rcore_fuel' then
         exports['rcore_fuel']:AddVehicleFuelLiter(vehicle, level)
-    elseif GetResourceState('ox_fuel')    == 'started' then
+    elseif _system == 'ox_fuel' then
         Entity(vehicle).state.fuel = level
     end
 end))

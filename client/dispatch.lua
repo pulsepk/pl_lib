@@ -1,3 +1,5 @@
+local _system = PLLib.GetDispatch()
+
 local function streetText(coords)
     local s1, s2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
     local name1  = GetStreetNameFromHashKey(s1)
@@ -17,8 +19,7 @@ end
 -- opts.radius  : number  — blip radius   (default 0)
 -- opts.length  : number  — duration mins (default 3)
 exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
-    local dispatch = PLLib.GetDispatch()
-    if not dispatch then
+    if not _system then
         print('^1[pl_lib] SendDispatch: no compatible dispatch resource detected.^0')
         return
     end
@@ -35,7 +36,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
     local radius = opts.radius or 0
     local length = opts.length or 3
 
-    if dispatch == 'ps' then
+    if _system == 'ps' then
         exports['ps-dispatch']:CustomAlert({
             coords       = coords,
             message      = msg .. ' ' .. street,
@@ -48,7 +49,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
             length       = length,
         })
 
-    elseif dispatch == 'aty' then
+    elseif _system == 'aty' then
         local s1, s2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
         local loc = GetStreetNameFromHashKey(s1)
         if s2 ~= 0 then loc = loc .. ' ' .. GetStreetNameFromHashKey(s2) end
@@ -58,7 +59,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
             sprite, jobs
         )
 
-    elseif dispatch == 'rcore' then
+    elseif _system == 'rcore' then
         TriggerServerEvent('rcore_dispatch:server:sendAlert', {
             code             = code .. ' - ' .. title,
             default_priority = 'low',
@@ -77,7 +78,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
             },
         })
 
-    elseif dispatch == 'cd' then
+    elseif _system == 'cd' then
         TriggerServerEvent('cd_dispatch:AddNotification', {
             job_table  = jobs,
             coords     = coords,
@@ -97,7 +98,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
             },
         })
 
-    elseif dispatch == 'op' then
+    elseif _system == 'op' then
         TriggerServerEvent('Opto_dispatch:Server:SendAlert',
             jobs, title,
             msg .. ' at ' .. street,
@@ -105,7 +106,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
             GetPlayerServerId(PlayerId())
         )
 
-    elseif dispatch == 'codem' then
+    elseif _system == 'codem' then
         exports['codem-dispatch']:CustomDispatch({
             type   = title,
             header = title,
@@ -113,7 +114,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
             code   = code,
         })
 
-    elseif dispatch == 'qs' then
+    elseif _system == 'qs' then
         TriggerServerEvent('qs-dispatch:server:CreateDispatchCall', {
             job          = jobs,
             callLocation = coords,
@@ -131,7 +132,7 @@ exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
             },
         })
 
-    elseif dispatch == 'tk' then
+    elseif _system == 'tk' then
         exports.tk_dispatch:addCall({
             title         = title,
             code          = opts.code,

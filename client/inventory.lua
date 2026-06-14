@@ -1,3 +1,5 @@
+local _inventory = PLLib.GetInventory()
+
 -- OpenStashInventory(stashName, opts)
 -- opts: { weight (number), slots (number), label (string) }
 exports('OpenStashInventory', PLLib.Wrap('OpenStashInventory', function(stashName, opts)
@@ -6,10 +8,10 @@ exports('OpenStashInventory', PLLib.Wrap('OpenStashInventory', function(stashNam
     local slots  = opts.slots  or 30
     local label  = opts.label  or stashName
 
-    if GetResourceState('ox_inventory') == 'started' then
+    if _inventory == 'ox_inventory' then
         exports.ox_inventory:openInventory('stash', stashName)
 
-    elseif GetResourceState('qb-inventory') == 'started' then
+    elseif _inventory == 'qb-inventory' then
         if PLLib.CheckDependency('qb-inventory', '2.0.0') then
             TriggerServerEvent('pl_lib:server:openQBStash', stashName)
         else
@@ -19,28 +21,28 @@ exports('OpenStashInventory', PLLib.Wrap('OpenStashInventory', function(stashNam
             })
         end
 
-    elseif GetResourceState('qs-inventory') == 'started' then
+    elseif _inventory == 'qs-inventory' then
         TriggerEvent('inventory:client:SetCurrentStash', stashName)
         TriggerServerEvent('inventory:server:OpenInventory', 'stash', stashName, {
             maxweight = weight, slots = slots
         })
 
-    elseif GetResourceState('ps-inventory') == 'started' then
+    elseif _inventory == 'ps-inventory' then
         TriggerEvent('ps-inventory:client:SetCurrentStash', stashName)
         TriggerServerEvent('ps-inventory:server:OpenInventory', 'stash', stashName, {
             maxweight = weight, slots = slots
         })
 
-    elseif GetResourceState('codem-inventory') == 'started' then
+    elseif _inventory == 'codem-inventory' then
         TriggerServerEvent('codem-inventory:server:openstash', stashName, slots, weight, stashName)
 
-    elseif GetResourceState('tgiann-inventory') == 'started' then
+    elseif _inventory == 'tgiann-inventory' then
         exports['tgiann-inventory']:OpenInventory('stash', stashName)
 
-    elseif GetResourceState('origen_inventory') == 'started' then
+    elseif _inventory == 'origen_inventory' then
         exports.origen_inventory:openInventory('stash', stashName)
 
-    elseif GetResourceState('jaksam_inventory') == 'started' then
+    elseif _inventory == 'jaksam_inventory' then
         exports['jaksam_inventory']:openInventory(stashName)
     end
 end))
