@@ -33,6 +33,7 @@ client_scripts {
     'client/dispatch.lua',
     'client/entity.lua',
     'client/minigame.lua',
+    'client/playerstatus.lua',
 }
 
 server_scripts {
