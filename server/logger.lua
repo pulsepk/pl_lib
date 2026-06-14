@@ -2,7 +2,7 @@ local fmsdk  = GetResourceState('fmsdk')   == 'started'
 local fmlogs = GetResourceState('fm-logs') == 'started'
 
 -- opts: { type, enable, webhook, jobname }
-exports('Log', function(message, opts)
+exports('Log', PLLib.Wrap('Log', function(message, opts)
     if not opts or not opts.enable then return end
 
     if opts.type == 'fivemanage' then
@@ -34,4 +34,4 @@ exports('Log', function(message, opts)
             avatar_url = 'https://r2.fivemanage.com/JEc8nqRsuJODhwqwkKd7o/pulsescriptsps-logo.png',
         }), { ['Content-Type'] = 'application/json' })
     end
-end)
+end))

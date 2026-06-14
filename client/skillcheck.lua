@@ -6,7 +6,7 @@ local _system = PLLib.SkillCheck
 --   keys       = {'w','a','s','d'}               (ox_lib)
 --   lation     = { Title, Difficulties, Keys }   (lation_ui)
 -- }
-exports('DoSkillCheck', function(opts)
+exports('DoSkillCheck', PLLib.Wrap('DoSkillCheck', function(opts)
     opts = opts or {}
 
     if _system == 'ox_lib' then
@@ -22,4 +22,4 @@ exports('DoSkillCheck', function(opts)
     end
 
     return false
-end)
+end))

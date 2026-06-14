@@ -10,7 +10,7 @@ local _system = PLLib.GetMinigame()
 --   ps-ui-maze     → time (int)
 --   ps-ui-scrambler → time (int), numbers (int)
 --   M-drilling     → (no extra opts; uses Drilling:Start event)
-exports('DoMinigame', function(callback, opts)
+exports('DoMinigame', PLLib.Wrap('DoMinigame', function(callback, opts)
     opts = opts or {}
     local system = opts.system or _system
 
@@ -57,4 +57,4 @@ exports('DoMinigame', function(callback, opts)
         print('^1[pl_lib] DoMinigame: no compatible minigame resource detected.^0')
         callback(false)
     end
-end)
+end))

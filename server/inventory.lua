@@ -1,5 +1,5 @@
 -- RegisterUsableItem(name, cb) — cb(src, item) fires when a player uses the item
-exports('RegisterUsableItem', function(name, cb)
+exports('RegisterUsableItem', PLLib.Wrap('RegisterUsableItem', function(name, cb)
     local fw = PLLib.GetFramework()
 
     if fw == 'qbox' then
@@ -17,7 +17,7 @@ exports('RegisterUsableItem', function(name, cb)
     else
         print('[pl_lib] RegisterUsableItem: unknown framework for item ' .. name)
     end
-end)
+end))
 
 -- qb-inventory stash relay (needed for newer qb-inventory versions that require a server-side open)
 RegisterNetEvent('pl_lib:server:openQBStash')
@@ -29,7 +29,7 @@ AddEventHandler('pl_lib:server:openQBStash', function(stashName)
 end)
 
 -- AddItem(src, item, amount) → true on success, false on failure
-exports('AddItem', function(src, item, amount)
+exports('AddItem', PLLib.Wrap('AddItem', function(src, item, amount)
     if GetResourceState('ox_inventory') == 'started' then
         return exports.ox_inventory:AddItem(src, item, amount, false) ~= false
 
@@ -65,10 +65,10 @@ exports('AddItem', function(src, item, amount)
 
     print('[pl_lib] AddItem: no inventory resource found')
     return false
-end)
+end))
 
 -- RemoveItem(src, item, amount) → true on success, false on failure
-exports('RemoveItem', function(src, item, amount)
+exports('RemoveItem', PLLib.Wrap('RemoveItem', function(src, item, amount)
     if GetResourceState('ox_inventory') == 'started' then
         return exports.ox_inventory:RemoveItem(src, item, amount, false) ~= false
 
@@ -104,10 +104,10 @@ exports('RemoveItem', function(src, item, amount)
 
     print('[pl_lib] RemoveItem: no inventory resource found')
     return false
-end)
+end))
 
 -- HasItem(src, item) → item count (number), or 0 if not found
-exports('HasItem', function(src, item)
+exports('HasItem', PLLib.Wrap('HasItem', function(src, item)
     if GetResourceState('ox_inventory') == 'started' then
         return exports.ox_inventory:GetItem(src, item, nil, true) or 0
 
@@ -144,4 +144,4 @@ exports('HasItem', function(src, item)
 
     print('[pl_lib] HasItem: no inventory resource found')
     return 0
-end)
+end))

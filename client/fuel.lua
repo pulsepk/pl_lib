@@ -1,6 +1,6 @@
 -- SetVehicleFuel(vehicle, level)
 -- level: 0-100 (float)
-exports('SetVehicleFuel', function(vehicle, level)
+exports('SetVehicleFuel', PLLib.Wrap('SetVehicleFuel', function(vehicle, level)
     if GetResourceState('LegacyFuel')     == 'started' then
         exports['LegacyFuel']:SetFuel(vehicle, level)
     elseif GetResourceState('cdn-fuel')   == 'started' then
@@ -12,4 +12,4 @@ exports('SetVehicleFuel', function(vehicle, level)
     elseif GetResourceState('ox_fuel')    == 'started' then
         Entity(vehicle).state.fuel = level
     end
-end)
+end))

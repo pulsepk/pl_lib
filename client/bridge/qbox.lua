@@ -2,24 +2,24 @@ if PLLib.GetFramework() ~= 'qbox' then return end
 
 local QBCore = exports[PLLib.FrameworkResources.qb.resource][PLLib.FrameworkResources.qb.export]()
 
-exports('GetPlayersInNearby', function(coords, distance)
+exports('GetPlayersInNearby', PLLib.Wrap('GetPlayersInNearby', function(coords, distance)
     return QBCore.Functions.GetPlayersFromCoords(coords, distance)
-end)
+end))
 
-exports('GetPlayerData', function()
+exports('GetPlayerData', PLLib.Wrap('GetPlayerData', function()
     return QBCore.Functions.GetPlayerData()
-end)
+end))
 
-exports('GetPlayerDataJob', function()
+exports('GetPlayerDataJob', PLLib.Wrap('GetPlayerDataJob', function()
     return QBCore.Functions.GetPlayerData().job
-end)
+end))
 
-exports('GetPlayerGender', function()
+exports('GetPlayerGender', PLLib.Wrap('GetPlayerGender', function()
     local data = QBCore.Functions.GetPlayerData()
     return data.charinfo.gender == 1 and 'female' or 'male'
-end)
+end))
 
-exports('GetEmployees', function(jobname, cb)
+exports('GetEmployees', PLLib.Wrap('GetEmployees', function(jobname, cb)
     lib.callback('qbx_management:server:getEmployees', false, function(data)
         if not data then cb({}) return end
         local jobGrades = (QBCore.Shared.Jobs[jobname] or {}).grades or {}
@@ -36,33 +36,33 @@ exports('GetEmployees', function(jobname, cb)
         end
         cb(list)
     end, jobname, 'job')
-end)
+end))
 
-exports('PromoteEmployee', function(identifier, currentGrade, cb)
+exports('PromoteEmployee', PLLib.Wrap('PromoteEmployee', function(identifier, currentGrade, cb)
     lib.callback('qbx_management:server:updateGrade', false,
         function() if cb then cb() end end,
         identifier, currentGrade, currentGrade + 1, 'job')
-end)
+end))
 
-exports('DemoteEmployee', function(identifier, currentGrade, cb)
+exports('DemoteEmployee', PLLib.Wrap('DemoteEmployee', function(identifier, currentGrade, cb)
     lib.callback('qbx_management:server:updateGrade', false,
         function() if cb then cb() end end,
         identifier, currentGrade, currentGrade - 1, 'job')
-end)
+end))
 
-exports('FireEmployee', function(identifier, cb)
+exports('FireEmployee', PLLib.Wrap('FireEmployee', function(identifier, cb)
     lib.callback('qbx_management:server:fireEmployee', false,
         function() if cb then cb() end end,
         identifier, 'job')
-end)
+end))
 
-exports('HireEmployee', function(targetServerId, cb)
+exports('HireEmployee', PLLib.Wrap('HireEmployee', function(targetServerId, cb)
     lib.callback('qbx_management:server:hireEmployee', false,
         function() if cb then cb() end end,
         targetServerId, 'job')
-end)
+end))
 
-exports('GetJobGrades', function(jobname)
+exports('GetJobGrades', PLLib.Wrap('GetJobGrades', function(jobname)
     local raw  = (QBCore.Shared.Jobs[jobname] or {}).grades or {}
     local keys = {}
     for k in pairs(raw) do keys[#keys + 1] = k end
@@ -72,4 +72,4 @@ exports('GetJobGrades', function(jobname)
         grades[#grades + 1] = { value = k, label = raw[k].name or ('Grade ' .. k) }
     end
     return grades
-end)
+end))

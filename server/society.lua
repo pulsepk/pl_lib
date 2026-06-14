@@ -1,6 +1,6 @@
 local _system = PLLib.GetSociety()
 
-exports('AddSocietyMoney', function(account, money)
+exports('AddSocietyMoney', PLLib.Wrap('AddSocietyMoney', function(account, money)
     if _system == 'esx_addonaccount' then
         TriggerEvent('esx_addonaccount:getSharedAccount', 'society_' .. account, function(acc)
             acc.addMoney(money)
@@ -20,9 +20,9 @@ exports('AddSocietyMoney', function(account, money)
     elseif _system == 'kartik-banking' then
         exports['kartik-banking']:AddAccountMoney(account, money)
     end
-end)
+end))
 
-exports('RemoveSocietyMoney', function(account, money)
+exports('RemoveSocietyMoney', PLLib.Wrap('RemoveSocietyMoney', function(account, money)
     if _system == 'esx_addonaccount' then
         TriggerEvent('esx_society:getSociety', account, function(society)
             TriggerEvent('esx_addonaccount:getSharedAccount', society.account, function(acc)
@@ -44,10 +44,10 @@ exports('RemoveSocietyMoney', function(account, money)
     elseif _system == 'kartik-banking' then
         exports['kartik-banking']:RemoveAccountMoney(account, money)
     end
-end)
+end))
 
 -- Returns the balance as a number
-exports('GetSocietyMoney', function(account)
+exports('GetSocietyMoney', PLLib.Wrap('GetSocietyMoney', function(account)
     if _system == 'esx_addonaccount' then
         local p = promise.new()
         TriggerEvent('esx_society:getSociety', account, function(data)
@@ -73,4 +73,4 @@ exports('GetSocietyMoney', function(account)
         return exports['kartik-banking']:GetAccountMoney(account)
     end
     return 0
-end)
+end))

@@ -147,12 +147,23 @@ function PLLib.GetMinigame()
     return nil
 end
 
-exports('GetFramework',  PLLib.GetFramework)
-exports('GetTarget',     PLLib.GetTarget)
-exports('GetTextUI',     PLLib.GetTextUI)
-exports('GetNotify',     PLLib.GetNotify)
-exports('GetClothing',   PLLib.GetClothing)
-exports('GetSociety',    PLLib.GetSociety)
-exports('GetDispatch',   PLLib.GetDispatch)
-exports('GetMinigame',   PLLib.GetMinigame)
-exports('GetImagesPath', PLLib.GetImagesPath)
+function PLLib.Wrap(name, fn)
+    return function(...)
+        local results = table.pack(pcall(fn, ...))
+        if not results[1] then
+            print(('[pl_lib] ^1Error in export "%s": %s^0'):format(name, tostring(results[2])))
+            return nil
+        end
+        return table.unpack(results, 2, results.n)
+    end
+end
+
+exports('GetFramework',  PLLib.Wrap('GetFramework',  PLLib.GetFramework))
+exports('GetTarget',     PLLib.Wrap('GetTarget',     PLLib.GetTarget))
+exports('GetTextUI',     PLLib.Wrap('GetTextUI',     PLLib.GetTextUI))
+exports('GetNotify',     PLLib.Wrap('GetNotify',     PLLib.GetNotify))
+exports('GetClothing',   PLLib.Wrap('GetClothing',   PLLib.GetClothing))
+exports('GetSociety',    PLLib.Wrap('GetSociety',    PLLib.GetSociety))
+exports('GetDispatch',   PLLib.Wrap('GetDispatch',   PLLib.GetDispatch))
+exports('GetMinigame',   PLLib.Wrap('GetMinigame',   PLLib.GetMinigame))
+exports('GetImagesPath', PLLib.Wrap('GetImagesPath', PLLib.GetImagesPath))

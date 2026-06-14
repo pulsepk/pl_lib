@@ -4,7 +4,7 @@ local _savedLook  = nil -- original appearance snapshot for supported systems
 -- SetPlayerUniform(playerPed, uniformData)
 -- uniformData: { tshirt_1, tshirt_2, torso_1, torso_2, arms, pants_1, pants_2,
 --               shoes_1, shoes_2, helmet_1, helmet_2, chain_1, chain_2, ears_1, ears_2 }
-exports('SetPlayerUniform', function(playerPed, uniformData)
+exports('SetPlayerUniform', PLLib.Wrap('SetPlayerUniform', function(playerPed, uniformData)
     if not uniformData then return end
 
     if _system == 'esx_skin' then
@@ -105,10 +105,10 @@ exports('SetPlayerUniform', function(playerPed, uniformData)
             },
         })
     end
-end)
+end))
 
 -- RevertPlayerClothing() — restores the player's original appearance
-exports('RevertPlayerClothing', function()
+exports('RevertPlayerClothing', PLLib.Wrap('RevertPlayerClothing', function()
     if _system == 'esx_skin' then
         ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
             TriggerEvent('skinchanger:loadSkin', skin)
@@ -131,4 +131,4 @@ exports('RevertPlayerClothing', function()
         TriggerServerEvent('rcore_clothing:reloadSkin')
         _savedLook = nil
     end
-end)
+end))

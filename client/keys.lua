@@ -1,5 +1,5 @@
 -- GiveVehicleKeys(vehicle) — grants keys to the local player for the given vehicle entity
-exports('GiveVehicleKeys', function(vehicle)
+exports('GiveVehicleKeys', PLLib.Wrap('GiveVehicleKeys', function(vehicle)
     local plate = GetVehicleNumberPlateText(vehicle)
     local model = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))
 
@@ -13,4 +13,4 @@ exports('GiveVehicleKeys', function(vehicle)
         TriggerServerEvent('vehicles_keys:selfGiveVehicleKeys', plate)
     end
     -- add additional key systems here as needed
-end)
+end))

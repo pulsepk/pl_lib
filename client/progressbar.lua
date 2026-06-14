@@ -12,7 +12,7 @@ end
 -- ProgressBar(label, duration, animDict, anim, opts) → true when complete
 -- animDict / anim: optional animation to play during the bar
 -- opts: optional table overriding disable flags, e.g. { move = false } to allow walking
-exports('ProgressBar', function(label, duration, animDict, anim, opts)
+exports('ProgressBar', PLLib.Wrap('ProgressBar', function(label, duration, animDict, anim, opts)
     opts = opts or {}
     local animData = (animDict and anim) and { dict = animDict, clip = anim } or nil
     local disable  = {
@@ -69,4 +69,4 @@ exports('ProgressBar', function(label, duration, animDict, anim, opts)
     -- fallback: just wait the duration
     Wait(duration)
     return true
-end)
+end))

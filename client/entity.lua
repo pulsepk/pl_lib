@@ -3,22 +3,22 @@
 -- NetToEnt         : safely convert a network ID to an entity handle (0 on failure).
 -- TryRequestControl: request network control of an entity with a millisecond timeout.
 
-exports('EnsureModel', function(model)
+exports('EnsureModel', PLLib.Wrap('EnsureModel', function(model)
     local hash = type(model) == 'string' and GetHashKey(model) or model
     if not IsModelInCdimage(hash) then return false end
     RequestModel(hash)
     while not HasModelLoaded(hash) do Wait(10) end
     return true
-end)
+end))
 
-exports('NetToEnt', function(netId)
+exports('NetToEnt', PLLib.Wrap('NetToEnt', function(netId)
     if not netId then return 0 end
     local ent = NetworkGetEntityFromNetworkId(netId)
     if ent and ent ~= 0 and DoesEntityExist(ent) then return ent end
     return 0
-end)
+end))
 
-exports('TryRequestControl', function(entity, timeoutMs)
+exports('TryRequestControl', PLLib.Wrap('TryRequestControl', function(entity, timeoutMs)
     timeoutMs = timeoutMs or 1000
     if not entity or entity == 0 or not DoesEntityExist(entity) then return false end
     if NetworkHasControlOfEntity(entity) then return true end
@@ -29,4 +29,4 @@ exports('TryRequestControl', function(entity, timeoutMs)
         NetworkRequestControlOfEntity(entity)
     end
     return NetworkHasControlOfEntity(entity)
-end)
+end))

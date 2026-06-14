@@ -1,6 +1,6 @@
 -- OpenStashInventory(stashName, opts)
 -- opts: { weight (number), slots (number), label (string) }
-exports('OpenStashInventory', function(stashName, opts)
+exports('OpenStashInventory', PLLib.Wrap('OpenStashInventory', function(stashName, opts)
     opts = opts or {}
     local weight = opts.weight or 80000
     local slots  = opts.slots  or 30
@@ -43,7 +43,7 @@ exports('OpenStashInventory', function(stashName, opts)
     elseif GetResourceState('jaksam_inventory') == 'started' then
         exports['jaksam_inventory']:openInventory(stashName)
     end
-end)
+end))
 
 -- Server-side relay for qb-inventory stash opening (newer versions require a server call)
 RegisterNetEvent('pl_lib:client:openQBStashResponse')

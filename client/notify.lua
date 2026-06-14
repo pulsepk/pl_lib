@@ -2,7 +2,7 @@ local _system = PLLib.GetNotify()
 
 -- Notify(title, message, type)
 -- type: 'success' | 'error' | 'info' | 'warning'
-exports('Notify', function(title, message, ntype)
+exports('Notify', PLLib.Wrap('Notify', function(title, message, ntype)
     ntype = ntype or 'success'
     if _system == 'ox_lib' then
         lib.notify({ title = title, description = message, type = ntype })
@@ -21,4 +21,4 @@ exports('Notify', function(title, message, ntype)
     else
         print(('[pl_lib] Notify: %s — %s'):format(title, message))
     end
-end)
+end))

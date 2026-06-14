@@ -8,7 +8,7 @@ end
 
 -- SetPlayerStatus(src, hunger, thirst)
 -- hunger / thirst: points to ADD (0–100 scale). Pass 0 to skip either.
-exports('SetPlayerStatus', function(src, hunger, thirst)
+exports('SetPlayerStatus', PLLib.Wrap('SetPlayerStatus', function(src, hunger, thirst)
     hunger = hunger or 0
     thirst = thirst or 0
 
@@ -33,4 +33,4 @@ exports('SetPlayerStatus', function(src, hunger, thirst)
             TriggerClientEvent('esx_status:add', src, 'water', thirst * 10000)
         end
     end
-end)
+end))

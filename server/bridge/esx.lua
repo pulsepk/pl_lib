@@ -2,31 +2,31 @@ if PLLib.GetFramework() ~= 'esx' then return end
 
 ESX = exports[PLLib.FrameworkResources.esx.resource][PLLib.FrameworkResources.esx.export]()
 
-exports('GetPlayer', function(target)
+exports('GetPlayer', PLLib.Wrap('GetPlayer', function(target)
     return ESX.GetPlayerFromId(target)
-end)
+end))
 
-exports('GetPlayerIdentifier', function(target)
+exports('GetPlayerIdentifier', PLLib.Wrap('GetPlayerIdentifier', function(target)
     local p = ESX.GetPlayerFromId(target)
     return p and p.getIdentifier()
-end)
+end))
 
-exports('GetPlayerName', function(target)
+exports('GetPlayerName', PLLib.Wrap('GetPlayerName', function(target)
     local p = ESX.GetPlayerFromId(target)
     return p and p.getName() or ''
-end)
+end))
 
-exports('GetJob', function(target)
+exports('GetJob', PLLib.Wrap('GetJob', function(target)
     local p = ESX.GetPlayerFromId(target)
     return p and p.getJob().name
-end)
+end))
 
-exports('GetJobGrade', function(target)
+exports('GetJobGrade', PLLib.Wrap('GetJobGrade', function(target)
     local p = ESX.GetPlayerFromId(target)
     return p and p.getJob().grade or 0
-end)
+end))
 
-exports('RemovePlayerMoney', function(target, account, amount, _reason)
+exports('RemovePlayerMoney', PLLib.Wrap('RemovePlayerMoney', function(target, account, amount, _reason)
     local p = ESX.GetPlayerFromId(target)
     if not p then return end
     if account == 'bank' then
@@ -34,9 +34,9 @@ exports('RemovePlayerMoney', function(target, account, amount, _reason)
     elseif account == 'money' then
         p.removeAccountMoney('money', amount)
     end
-end)
+end))
 
-exports('AddPlayerMoney', function(target, account, amount, _reason)
+exports('AddPlayerMoney', PLLib.Wrap('AddPlayerMoney', function(target, account, amount, _reason)
     local p = ESX.GetPlayerFromId(target)
     if not p then return end
     if account == 'bank' then
@@ -46,9 +46,9 @@ exports('AddPlayerMoney', function(target, account, amount, _reason)
     elseif account == 'dirty' then
         p.addAccountMoney('black_money', amount)
     end
-end)
+end))
 
-exports('GetPlayerAccountMoney', function(target, account, amount)
+exports('GetPlayerAccountMoney', PLLib.Wrap('GetPlayerAccountMoney', function(target, account, amount)
     local p = ESX.GetPlayerFromId(target)
     if not p then return false end
     if account == 'bank' then
@@ -57,10 +57,10 @@ exports('GetPlayerAccountMoney', function(target, account, amount)
         return p.getAccount('money').money >= amount
     end
     return false
-end)
+end))
 
-exports('PlayerCanCarryItems', function(target, item, amount)
+exports('PlayerCanCarryItems', PLLib.Wrap('PlayerCanCarryItems', function(target, item, amount)
     local p = ESX.GetPlayerFromId(target)
     if not p then return false end
     return p.canCarryItem(item, amount) == true
-end)
+end))

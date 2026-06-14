@@ -30,7 +30,7 @@ function PLLib.CheckVersion(resourceName, enable)
         local entry = data and data[resourceName]
 
         if not entry or not entry.version then
-            --print('^1[pl_lib] Version check failed for ' .. resourceName .. ': no entry in manifest.^0')
+            print('^1[pl_lib] Version check failed for ' .. resourceName .. ': no entry in manifest.^0')
             return
         end
 
@@ -52,7 +52,7 @@ function PLLib.CheckVersion(resourceName, enable)
     end, 'GET')
 end
 
-exports('CheckVersion', PLLib.CheckVersion)
+exports('CheckVersion', PLLib.Wrap('CheckVersion', PLLib.CheckVersion))
 
 AddEventHandler('onServerResourceStart', function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end

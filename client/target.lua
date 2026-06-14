@@ -100,7 +100,7 @@ end
 -- ── Entity targets ────────────────────────────────────────────────────────────
 
 -- opt: { name, label, icon, distance, grade, jobRequired, serverEvent, jobname }
-exports('AddEntityTarget', function(entity, opt)
+exports('AddEntityTarget', PLLib.Wrap('AddEntityTarget', function(entity, opt)
     if _system == 'ox_target' then
         exports.ox_target:addLocalEntity(entity, { oxOption(opt) })
     elseif _system == 'qb-target' then
@@ -109,21 +109,21 @@ exports('AddEntityTarget', function(entity, opt)
             distance = opt.distance or 1.5,
         })
     end
-end)
+end))
 
-exports('RemoveEntityTarget', function(entity)
+exports('RemoveEntityTarget', PLLib.Wrap('RemoveEntityTarget', function(entity)
     if _system == 'ox_target' then
         exports.ox_target:removeLocalEntity(entity)
     elseif _system == 'qb-target' then
         exports['qb-target']:RemoveTargetEntity(entity)
     end
-end)
+end))
 
 -- ── Box zone targets ──────────────────────────────────────────────────────────
 
 -- zone: { TargetCoords, w, h, height, heading, minZ, maxZ }
 -- opt:  { name, label, icon, distance, grade, jobRequired, serverEvent, jobname, debug }
-exports('AddBoxTarget', function(zone, opt)
+exports('AddBoxTarget', PLLib.Wrap('AddBoxTarget', function(zone, opt)
     if _system == 'ox_target' then
         return exports.ox_target:addBoxZone({
             coords   = zone.TargetCoords,
@@ -142,22 +142,22 @@ exports('AddBoxTarget', function(zone, opt)
         }, { options = { qbOption(opt) }, distance = opt.distance or 1.5 })
         return opt.name
     end
-end)
+end))
 
-exports('RemoveBoxTarget', function(id)
+exports('RemoveBoxTarget', PLLib.Wrap('RemoveBoxTarget', function(id)
     if _system == 'ox_target' then
         exports.ox_target:removeZone(id)
     elseif _system == 'qb-target' then
         exports['qb-target']:RemoveZone(id)
     end
-end)
+end))
 
 -- ── Chair targets ─────────────────────────────────────────────────────────────
 
 -- chair: { coords (vec4), w, h, height, label, minZ, maxZ, stand }
 -- Fires 'pl_lib:targetSelected' with { loc, stand } so the calling resource can
 -- invoke HandleChairInteraction without passing a function across the boundary.
-exports('AddChairTarget', function(zoneName, chair, debug)
+exports('AddChairTarget', PLLib.Wrap('AddChairTarget', function(zoneName, chair, debug)
     if _system == 'ox_target' then
         return exports.ox_target:addBoxZone({
             coords   = vec3(chair.coords.x, chair.coords.y, chair.coords.z - 0.5),
@@ -199,12 +199,12 @@ exports('AddChairTarget', function(zoneName, chair, debug)
         })
         return zoneName
     end
-end)
+end))
 
 -- ── Model targets ─────────────────────────────────────────────────────────────
 
 -- opts: array of { name, label, icon, distance, item, event, args, canInteract }
-exports('AddModelTarget', function(model, opts)
+exports('AddModelTarget', PLLib.Wrap('AddModelTarget', function(model, opts)
     if _system == 'ox_target' then
         local options = {}
         for _, opt in ipairs(opts) do table.insert(options, oxModelOption(opt)) end
@@ -218,12 +218,12 @@ exports('AddModelTarget', function(model, opts)
         end
         exports['qb-target']:AddTargetModel(model, { options = options, distance = distance })
     end
-end)
+end))
 
-exports('RemoveModelTarget', function(model)
+exports('RemoveModelTarget', PLLib.Wrap('RemoveModelTarget', function(model)
     if _system == 'ox_target' then
         exports.ox_target:removeModel(model)
     elseif _system == 'qb-target' then
         exports['qb-target']:RemoveTargetModel(model)
     end
-end)
+end))

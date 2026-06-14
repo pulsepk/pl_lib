@@ -4,7 +4,7 @@ local _current = nil
 
 -- TextUIShow(text, opts)
 -- opts: { position, icon, style, align, color }
-exports('TextUIShow', function(text, opts)
+exports('TextUIShow', PLLib.Wrap('TextUIShow', function(text, opts)
     if _current == text then return end
     _current = text
     opts = opts or {}
@@ -30,9 +30,9 @@ exports('TextUIShow', function(text, opts)
     end
 
     _isOpen = true
-end)
+end))
 
-exports('TextUIHide', function()
+exports('TextUIHide', PLLib.Wrap('TextUIHide', function()
     if _system == 'ox_lib' then
         lib.hideTextUI()
     elseif _system == 'qb-core' then
@@ -51,9 +51,9 @@ exports('TextUIHide', function()
 
     _isOpen  = false
     _current = nil
-end)
+end))
 
 -- Returns: isOpen (bool), currentText (string|nil)
-exports('TextUIIsOpen', function()
+exports('TextUIIsOpen', PLLib.Wrap('TextUIIsOpen', function()
     return _isOpen, _current
-end)
+end))

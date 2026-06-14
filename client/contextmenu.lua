@@ -3,7 +3,7 @@ local _system = PLLib.ContextMenu
 -- ContextMenu(id, title, options, menu, header, description)
 -- Registers and immediately opens a context menu.
 -- options format follows ox_lib registerContext spec; lation_ui receives the same fields.
-exports('ContextMenu', function(id, title, options, menu, header, description)
+exports('ContextMenu', PLLib.Wrap('ContextMenu', function(id, title, options, menu, header, description)
     if _system == 'ox_lib' then
         lib.registerContext({
             id          = id,
@@ -25,14 +25,14 @@ exports('ContextMenu', function(id, title, options, menu, header, description)
         })
         exports.lation_ui:showMenu(id)
     end
-end)
+end))
 
 -- RegisterListMenu(id, title, items, position)
 -- items    : array of strings or {label=...} tables
 -- position : (ox_lib) 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left'
 -- Fires TriggerEvent('pl_lib:listMenuSelected', id, index) on selection so calling
 -- scripts can handle the result without passing functions across resource boundaries.
-exports('RegisterListMenu', function(id, title, items, position)
+exports('RegisterListMenu', PLLib.Wrap('RegisterListMenu', function(id, title, items, position)
     if _system == 'ox_lib' then
         lib.registerMenu({
             id       = id,
@@ -65,4 +65,4 @@ exports('RegisterListMenu', function(id, title, items, position)
         })
         exports.lation_ui:showMenu(id)
     end
-end)
+end))

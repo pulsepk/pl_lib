@@ -16,7 +16,7 @@ end
 -- opts.scale   : number  — blip scale    (default 1.0)
 -- opts.radius  : number  — blip radius   (default 0)
 -- opts.length  : number  — duration mins (default 3)
-exports('SendDispatch', function(opts)
+exports('SendDispatch', PLLib.Wrap('SendDispatch', function(opts)
     local dispatch = PLLib.GetDispatch()
     if not dispatch then
         print('^1[pl_lib] SendDispatch: no compatible dispatch resource detected.^0')
@@ -154,4 +154,4 @@ exports('SendDispatch', function(opts)
             },
         })
     end
-end)
+end))

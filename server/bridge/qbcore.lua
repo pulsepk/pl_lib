@@ -2,32 +2,32 @@ if PLLib.GetFramework() ~= 'qb' then return end
 
 local QBCore = exports[PLLib.FrameworkResources.qb.resource][PLLib.FrameworkResources.qb.export]()
 
-exports('GetPlayer', function(target)
+exports('GetPlayer', PLLib.Wrap('GetPlayer', function(target)
     return QBCore.Functions.GetPlayer(target)
-end)
+end))
 
-exports('GetPlayerIdentifier', function(target)
+exports('GetPlayerIdentifier', PLLib.Wrap('GetPlayerIdentifier', function(target)
     local p = QBCore.Functions.GetPlayer(target)
     return p and p.PlayerData.citizenid
-end)
+end))
 
-exports('GetPlayerName', function(target)
+exports('GetPlayerName', PLLib.Wrap('GetPlayerName', function(target)
     local p = QBCore.Functions.GetPlayer(target)
     if not p then return '' end
     return p.PlayerData.charinfo.firstname .. ' ' .. p.PlayerData.charinfo.lastname
-end)
+end))
 
-exports('GetJob', function(target)
+exports('GetJob', PLLib.Wrap('GetJob', function(target)
     local p = QBCore.Functions.GetPlayer(target)
     return p and p.PlayerData.job.name
-end)
+end))
 
-exports('GetJobGrade', function(target)
+exports('GetJobGrade', PLLib.Wrap('GetJobGrade', function(target)
     local p = QBCore.Functions.GetPlayer(target)
     return p and p.PlayerData.job.grade.level or 0
-end)
+end))
 
-exports('RemovePlayerMoney', function(target, account, amount, _reason)
+exports('RemovePlayerMoney', PLLib.Wrap('RemovePlayerMoney', function(target, account, amount, _reason)
     local p = QBCore.Functions.GetPlayer(target)
     if not p then return end
     if account == 'money' then
@@ -35,9 +35,9 @@ exports('RemovePlayerMoney', function(target, account, amount, _reason)
     elseif account == 'bank' then
         p.Functions.RemoveMoney('bank', amount)
     end
-end)
+end))
 
-exports('AddPlayerMoney', function(target, account, amount, _reason)
+exports('AddPlayerMoney', PLLib.Wrap('AddPlayerMoney', function(target, account, amount, _reason)
     local p = QBCore.Functions.GetPlayer(target)
     if not p then return end
     if account == 'bank' then
@@ -51,9 +51,9 @@ exports('AddPlayerMoney', function(target, account, amount, _reason)
             p.Functions.AddMoney('cash', amount)
         end
     end
-end)
+end))
 
-exports('GetPlayerAccountMoney', function(target, account, amount)
+exports('GetPlayerAccountMoney', PLLib.Wrap('GetPlayerAccountMoney', function(target, account, amount)
     local p = QBCore.Functions.GetPlayer(target)
     if not p then return false end
     if account == 'bank' then
@@ -62,9 +62,9 @@ exports('GetPlayerAccountMoney', function(target, account, amount)
         return p.PlayerData.money.cash >= amount
     end
     return false
-end)
+end))
 
-exports('PlayerCanCarryItems', function(_target, _item, _amount)
+exports('PlayerCanCarryItems', PLLib.Wrap('PlayerCanCarryItems', function(_target, _item, _amount)
     -- qb-inventory handles carry checks internally
     return true
-end)
+end))
