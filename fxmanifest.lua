@@ -34,6 +34,7 @@ client_scripts {
     'client/entity.lua',
     'client/minigame.lua',
     'client/playerstatus.lua',
+    'client/phone.lua',
 }
 
 server_scripts {
@@ -44,6 +45,7 @@ server_scripts {
     'server/society.lua',
     'server/logger.lua',
     'server/playerstatus.lua',
+    'server/phone.lua',
     'server/version.lua',
 }
 

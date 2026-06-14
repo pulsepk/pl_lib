@@ -152,6 +152,14 @@ function PLLib.GetInventory()
     end)
 end
 
+function PLLib.GetPhone()
+    return cache('Phone', function()
+        if PLLib.Phone ~= 'autodetect' then return PLLib.Phone end
+        if GetResourceState('lb-phone') == 'started' then return 'lb-phone' end
+        if GetResourceState('gksphone') == 'started' then return 'gksphone' end
+    end)
+end
+
 function PLLib.CheckDependency(name, minVersion)
     if GetResourceState(name) ~= 'started' then return false end
     local version = GetResourceMetadata(name, 'version', 0)
@@ -210,3 +218,4 @@ exports('GetImagesPath', PLLib.Wrap('GetImagesPath', PLLib.GetImagesPath))
 exports('GetFuel',       PLLib.Wrap('GetFuel',       PLLib.GetFuel))
 exports('GetKeys',       PLLib.Wrap('GetKeys',       PLLib.GetKeys))
 exports('GetInventory',  PLLib.Wrap('GetInventory',  PLLib.GetInventory))
+exports('GetPhone',      PLLib.Wrap('GetPhone',      PLLib.GetPhone))

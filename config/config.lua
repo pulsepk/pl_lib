@@ -59,6 +59,9 @@ PLLib.Keys = 'autodetect'
 -- Inventory: 'autodetect' | 'ox_inventory' | 'qb-inventory' | 'qs-inventory' | 'ps-inventory' | 'codem-inventory' | 'tgiann-inventory' | 'origen_inventory' | 'jaksam_inventory' | 'core_inventory' | 'esx_inventory'
 PLLib.Inventory = 'autodetect'
 
+-- Phone: 'autodetect' | 'lb-phone' | 'gksphone'
+PLLib.Phone = 'autodetect'
+
 -- ──────────────────────────────────────────────────────────────────────────────
 -- Inventory image paths
 -- Used by exports.pl_lib:GetImagesPath() to return the correct item image folder.
