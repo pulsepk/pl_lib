@@ -147,6 +147,7 @@ function PLLib.GetInventory()
         if GetResourceState('origen_inventory') == 'started' then return 'origen_inventory' end
         if GetResourceState('jaksam_inventory') == 'started' then return 'jaksam_inventory' end
         if GetResourceState('core_inventory')   == 'started' then return 'core_inventory'   end
+        if GetResourceState('one_inventory')    == 'started' then return 'one_inventory'    end
         if GetResourceState('esx_inventory')    == 'started' then return 'esx_inventory'    end
         print('^1[pl_lib] No compatible Inventory resource detected.^0')
     end)
@@ -183,7 +184,7 @@ function PLLib.GetImagesPath()
         local order = {
             'ox_inventory', 'qb-inventory', 'qs-inventory', 'ps-inventory',
             'codem-inventory', 'tgiann-inventory', 'origen_inventory',
-            'jaksam_inventory', 'core_inventory',
+            'jaksam_inventory', 'core_inventory', 'one_inventory',
         }
         for _, resource in ipairs(order) do
             if GetResourceState(resource) == 'started' then

@@ -99,10 +99,17 @@ end
 
 -- ── Entity targets ────────────────────────────────────────────────────────────
 
+-- ox_target's removeLocalEntity needs the exact option name(s) that were added —
+-- track what we registered per entity so callers can just pass the entity back.
+local entityOptionNames = {}
+
 -- opt: { name, label, icon, distance, grade, jobRequired, serverEvent, jobname }
 exports('AddEntityTarget', PLLib.Wrap('AddEntityTarget', function(entity, opt)
     if _system == 'ox_target' then
         exports.ox_target:addLocalEntity(entity, { oxOption(opt) })
+        local names = entityOptionNames[entity] or {}
+        names[#names + 1] = opt.name
+        entityOptionNames[entity] = names
     elseif _system == 'qb-target' then
         exports['qb-target']:AddTargetEntity(entity, {
             options  = { qbOption(opt) },
@@ -113,7 +120,11 @@ end))
 
 exports('RemoveEntityTarget', PLLib.Wrap('RemoveEntityTarget', function(entity)
     if _system == 'ox_target' then
-        exports.ox_target:removeLocalEntity(entity)
+        local names = entityOptionNames[entity]
+        if names then
+            exports.ox_target:removeLocalEntity(entity, names)
+            entityOptionNames[entity] = nil
+        end
     elseif _system == 'qb-target' then
         exports['qb-target']:RemoveTargetEntity(entity)
     end

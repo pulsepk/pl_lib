@@ -56,7 +56,7 @@ PLLib.Fuel = 'autodetect'
 -- Keys: 'autodetect' | 'qb-vehiclekeys' | 'wasabi_carlock' | 'qs-vehiclekeys' | 'vehicles_keys'
 PLLib.Keys = 'autodetect'
 
--- Inventory: 'autodetect' | 'ox_inventory' | 'qb-inventory' | 'qs-inventory' | 'ps-inventory' | 'codem-inventory' | 'tgiann-inventory' | 'origen_inventory' | 'jaksam_inventory' | 'core_inventory' | 'esx_inventory'
+-- Inventory: 'autodetect' | 'ox_inventory' | 'qb-inventory' | 'qs-inventory' | 'ps-inventory' | 'codem-inventory' | 'tgiann-inventory' | 'origen_inventory' | 'jaksam_inventory' | 'core_inventory' | 'one_inventory' | 'esx_inventory'
 PLLib.Inventory = 'autodetect'
 
 -- Phone: 'autodetect' | 'lb-phone' | 'gksphone'
@@ -83,4 +83,5 @@ PLLib.InventoryImages = {
     ['origen_inventory'] = 'nui://origen_inventory/html/images/',
     ['jaksam_inventory'] = 'nui://jaksam_inventory/html/images/',
     ['core_inventory']   = 'nui://core_inventory/html/images/',
+    ['one_inventory']    = 'nui://one_inventory/html/images/',
 }

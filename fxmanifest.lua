@@ -3,7 +3,7 @@ games { 'gta5' }
 
 author 'PulseScripts - pulsescripts.com'
 description 'PulseLib - Shared Framework Bridge'
-version '1.0.2'
+version '1.0.3'
 
 lua54 'yes'
 

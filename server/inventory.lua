@@ -63,6 +63,9 @@ exports('AddItem', PLLib.Wrap('AddItem', function(src, item, amount)
 
     elseif _inventory == 'core_inventory' then
         return exports['core_inventory']:addItem(src, item, amount) ~= false
+
+    elseif _inventory == 'one_inventory' then
+        return exports.one_inventory:AddItem(src, item, amount, false) ~= false
     end
 
     print('[pl_lib] AddItem: no inventory resource found')
@@ -102,6 +105,9 @@ exports('RemoveItem', PLLib.Wrap('RemoveItem', function(src, item, amount)
 
     elseif _inventory == 'core_inventory' then
         return exports['core_inventory']:removeItem(src, item, amount) ~= false
+
+    elseif _inventory == 'one_inventory' then
+        return exports.one_inventory:RemoveItem(src, item, amount, false) ~= false
     end
 
     print('[pl_lib] RemoveItem: no inventory resource found')
@@ -142,6 +148,10 @@ exports('HasItem', PLLib.Wrap('HasItem', function(src, item)
 
     elseif _inventory == 'core_inventory' then
         return exports['core_inventory']:hasItem(src, item, 1) and 1 or 0
+
+    elseif _inventory == 'one_inventory' then
+        local it = exports.one_inventory:GetItem(src, item, nil)
+        return it and it.count or 0
     end
 
     print('[pl_lib] HasItem: no inventory resource found')
