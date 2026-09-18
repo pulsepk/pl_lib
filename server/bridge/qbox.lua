@@ -1,29 +1,27 @@
 if PLLib.GetFramework() ~= 'qbox' then return end
 
-local QBCore = exports[PLLib.FrameworkResources.qb.resource][PLLib.FrameworkResources.qb.export]()
-
 exports('GetPlayer', PLLib.Wrap('GetPlayer', function(target)
     return exports.qbx_core:GetPlayer(target)
 end))
 
 exports('GetPlayerIdentifier', PLLib.Wrap('GetPlayerIdentifier', function(target)
-    local p = QBCore.Functions.GetPlayer(target)
+    local p = exports.qbx_core:GetPlayer(target)
     return p and p.PlayerData.citizenid
 end))
 
 exports('GetPlayerName', PLLib.Wrap('GetPlayerName', function(target)
-    local p = QBCore.Functions.GetPlayer(target)
+    local p = exports.qbx_core:GetPlayer(target)
     if not p then return '' end
     return p.PlayerData.charinfo.firstname .. ' ' .. p.PlayerData.charinfo.lastname
 end))
 
 exports('GetJob', PLLib.Wrap('GetJob', function(target)
-    local p = QBCore.Functions.GetPlayer(target)
+    local p = exports.qbx_core:GetPlayer(target)
     return p and p.PlayerData.job.name
 end))
 
 exports('GetJobGrade', PLLib.Wrap('GetJobGrade', function(target)
-    local p = QBCore.Functions.GetPlayer(target)
+    local p = exports.qbx_core:GetPlayer(target)
     return p and p.PlayerData.job.grade.level or 0
 end))
 
