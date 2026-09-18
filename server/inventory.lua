@@ -26,46 +26,52 @@ RegisterNetEvent('pl_lib:server:openQBStash')
 AddEventHandler('pl_lib:server:openQBStash', function(stashName)
     local src = source
     -- The calling script is responsible for registering/configuring the stash.
-    -- We just relay the open call back to the client.
-    TriggerClientEvent('pl_lib:client:openQBStashResponse', src, stashName, {})
+    
+    exports['qb-inventory']:OpenInventory(src,stashName)
 end)
 
--- AddItem(src, item, amount) → true on success, false on failure
-exports('AddItem', PLLib.Wrap('AddItem', function(src, item, amount)
+-- AddItem(src, item, amount, metadata) → true on success, false on failure
+-- metadata is optional (nil for every existing call site — unchanged behavior).
+-- Honored by: ox_inventory ('metadata'), qb-inventory ('info'), codem-inventory
+-- ('info'), qs-inventory ('itemMetadata'), tgiann-inventory ('info'),
+-- origen_inventory ('metadata'), jaksam_inventory ('metadata'),
+-- core_inventory ('metadata'), one_inventory ('metadata').
+-- ps-inventory is the only branch that still ignores it.
+exports('AddItem', PLLib.Wrap('AddItem', function(src, item, amount, metadata)
     if _inventory == 'ox_inventory' then
-        return exports.ox_inventory:AddItem(src, item, amount, false) ~= false
+        return exports.ox_inventory:AddItem(src, item, amount, metadata or false) ~= false
 
     elseif _inventory == 'qb-inventory' then
         if PLLib.CheckDependency('qb-inventory', '2.0.0') then
-            return exports['qb-inventory']:AddItem(src, item, amount, false, false) ~= false
+            return exports['qb-inventory']:AddItem(src, item, amount, false, metadata or false) ~= false
         else
             local p = exports['qb-core']:GetCoreObject().Functions.GetPlayer(src)
-            return p and p.Functions.AddItem(item, amount) ~= false
+            return p and p.Functions.AddItem(item, amount, false, metadata) ~= false
         end
 
     elseif _inventory == 'codem-inventory' then
-        return exports['codem-inventory']:AddItem(src, item, amount) ~= false
+        return exports['codem-inventory']:AddItem(src, item, amount, nil, metadata) ~= false
 
     elseif _inventory == 'qs-inventory' then
-        return exports['qs-inventory']:AddItem(src, item, amount) ~= false
+        return exports['qs-inventory']:AddItem(src, item, amount, nil, metadata) ~= false
 
     elseif _inventory == 'ps-inventory' then
         return exports['ps-inventory']:AddItem(src, item, amount, false, false) ~= false
 
     elseif _inventory == 'tgiann-inventory' then
-        return exports['tgiann-inventory']:AddItem(src, item, amount) ~= false
+        return exports['tgiann-inventory']:AddItem(src, item, amount, nil, metadata) ~= false
 
     elseif _inventory == 'origen_inventory' then
-        return exports.origen_inventory:addItem(src, item, amount) ~= false
+        return exports.origen_inventory:addItem(src, item, amount, nil, metadata) ~= false
 
     elseif _inventory == 'jaksam_inventory' then
-        return exports['jaksam_inventory']:addItem(src, item, amount) ~= false
+        return exports['jaksam_inventory']:addItem(src, item, amount, metadata, nil) ~= false
 
     elseif _inventory == 'core_inventory' then
-        return exports['core_inventory']:addItem(src, item, amount) ~= false
+        return exports['core_inventory']:addItem(src, item, amount, metadata) ~= false
 
     elseif _inventory == 'one_inventory' then
-        return exports.one_inventory:AddItem(src, item, amount, false) ~= false
+        return exports.one_inventory:AddItem(src, item, amount, metadata, false) ~= false
     end
 
     print('[pl_lib] AddItem: no inventory resource found')

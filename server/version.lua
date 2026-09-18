@@ -19,7 +19,6 @@ end
 function PLLib.CheckVersion(resourceName, enable)
     if not enable then return end
     local current = GetResourceMetadata(resourceName, 'version', 0)
-
     PerformHttpRequest(VERSION_URL, function(code, body)
         if code ~= 200 then
             print('^1[pl_lib] Version check failed for ' .. resourceName .. ': server unreachable.^0')

@@ -46,9 +46,3 @@ exports('OpenStashInventory', PLLib.Wrap('OpenStashInventory', function(stashNam
         exports['jaksam_inventory']:openInventory(stashName)
     end
 end))
-
--- Server-side relay for qb-inventory stash opening (newer versions require a server call)
-RegisterNetEvent('pl_lib:client:openQBStashResponse')
-AddEventHandler('pl_lib:client:openQBStashResponse', function(stashName, data)
-    exports['qb-inventory']:OpenInventory(stashName, data)
-end)
